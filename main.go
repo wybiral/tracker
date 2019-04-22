@@ -9,7 +9,7 @@ import (
 const Timeout = time.Second
 
 func main() {
-	http.HandleFunc("/favicon.png", asset)
+	http.HandleFunc("/favicon.ico", asset)
 	http.HandleFunc("/page1", page1)
 	http.HandleFunc("/page2", page2)
 	http.HandleFunc("/", index)
@@ -22,7 +22,7 @@ func asset(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	t0 := time.Now()
-	query := r.URL.Query().Get("id")
+	query := r.Header.Get("referer")
 	log.Println("IN", query)
 	defer func() {
 		t1 := time.Now()
@@ -51,7 +51,6 @@ func page1(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`<html>
 	<head>
 		<title>Page 1</title>
-		<link rel="icon" href="/favicon.png?id=page1"/>
 	</head>
 	<body>
 		<a href="/">Index</a> - <a href="/page1">Page 1</a> - <a href="/page2">Page 2</a>
@@ -64,7 +63,6 @@ func page2(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`<html>
 	<head>
 		<title>Page 2</title>
-		<link rel="icon" href="/favicon.png?id=page2"/>
 	</head>
 	<body>
 		<a href="/">Index</a> - <a href="/page1">Page 1</a> - <a href="/page2">Page 2</a>
@@ -77,7 +75,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`<html>
 	<head>
 		<title>Index</title>
-		<link rel="icon" href="/favicon.png?id=index"/>
 	</head>
 	<body>
 		<a href="/">Index</a> - <a href="/page1">Page 1</a> - <a href="/page2">Page 2</a>
