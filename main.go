@@ -1,9 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"time"
-	"log"
 )
 
 const Timeout = time.Second
@@ -28,7 +28,7 @@ func asset(w http.ResponseWriter, r *http.Request) {
 		t1 := time.Now()
 		log.Println("OUT", query, t1.Sub(t0))
 	}()
-	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Type", "image/x-icon")
 	w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	w.Header().Set("Pragma", "no-cache")
 	w.Header().Set("Expires", "0")
